@@ -2,9 +2,6 @@ import sys
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
-
-import sys
-
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 
@@ -96,17 +93,4 @@ gameUi.setupUi(window2)
 ui.setupUi(window)
 window.show()
 app.exec()
-
-
-    
-
-# if __name__ == "__main__":
-#     import sys
-#     app = QApplication(sys.argv)
-#     Launcher = QMainWindow()
-#     ui = Ui_Launcher()
-#     ui.setupUi(Launcher)
-#     Launcher.show()
-#     sys.exit(app.exec())
-
 
