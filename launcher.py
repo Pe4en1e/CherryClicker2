@@ -87,6 +87,7 @@ class Ui_CherryClicker(object):
         self.retranslateUi(CherryClicker)
         QMetaObject.connectSlotsByName(CherryClicker)
 
+
     def retranslateUi(self, CherryClicker):
         _translate = QCoreApplication.translate
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
