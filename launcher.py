@@ -4,6 +4,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt6.QtMultimedia import QSoundEffect, QMediaPlayer
 
 def startgame():
     launcher.close()
@@ -91,14 +92,12 @@ class Ui_CherryClicker(object):
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(Clicks.total)))
         self.main_btn.clicked.connect(self.addscore)
-    
+
 
     def addscore(self):
         Clicks.total += Clicks.click_cost
         self.score.setText(str(Clicks.total))
-
-
-
+        
 
 app=QApplication(sys.argv)
 ui = Ui_Launcher()
