@@ -10,12 +10,12 @@ import yaml
 from yaml import Loader, Dumper
 
 
-
 sfx_path = "sounds/effect.wav"
 
 def startgame():
     launcher.close()
     game.show()
+
 
 
 class Ui_Launcher(QMainWindow):
@@ -128,4 +128,3 @@ gameUi.setupUi(game)
 ui.setupUi(launcher)
 launcher.show()
 app.exec()
-
