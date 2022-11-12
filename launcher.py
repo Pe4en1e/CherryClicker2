@@ -1,10 +1,13 @@
-import sys
+import sys, os
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
-from PyQt6.QtMultimedia import QSoundEffect, QMediaPlayer
+from PyQt6.QtMultimedia import QSoundEffect
+from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
+
+sfx_path = "sounds/effect.wav"
 
 def startgame():
     launcher.close()
@@ -84,6 +87,17 @@ class Ui_CherryClicker(object):
         self.statusbar.setObjectName("statusbar")
         CherryClicker.setStatusBar(self.statusbar)
 
+
+        # self.sfx = QMediaPlayer() # Медленная поебень для теста
+        # self.sfx_output = QAudioOutput()
+        # self.sfx.setAudioOutput(self.sfx_output)
+        # self.sfx.setSource(QUrl.fromLocalFile(sfx_path))
+
+        self.sfx = QSoundEffect() # тык sfx
+        self.sfx.setSource(QUrl.fromLocalFile(sfx_path))
+
+        
+
         self.retranslateUi(CherryClicker)
         QMetaObject.connectSlotsByName(CherryClicker)
 
@@ -93,11 +107,13 @@ class Ui_CherryClicker(object):
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(Clicks.total)))
         self.main_btn.clicked.connect(self.addscore)
-
+        
 
     def addscore(self):
         Clicks.total += Clicks.click_cost
         self.score.setText(str(Clicks.total))
+        self.sfx.play()
+
         
 
 app=QApplication(sys.argv)
