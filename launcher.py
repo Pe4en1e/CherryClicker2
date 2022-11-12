@@ -83,9 +83,6 @@ class Ui_CherryClicker(object):
         self.score.raise_()
         self.main_btn.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(CherryClicker)
-        self.statusbar.setObjectName("statusbar")
-        CherryClicker.setStatusBar(self.statusbar)
 
 
         # self.sfx = QMediaPlayer() # Медленная поебень для теста
