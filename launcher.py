@@ -6,6 +6,10 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 from PyQt6.QtMultimedia import QSoundEffect
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
+import yaml
+from yaml import Loader, Dumper
+
+
 
 sfx_path = "sounds/effect.wav"
 
@@ -45,7 +49,9 @@ class Ui_Launcher(QMainWindow):
 
 
 class Clicks():
-    total=0
+    yaml_file = open('playerdata.yml', 'r')
+    data = yaml.load(yaml_file, Loader=Loader)
+    total = data['playerscore']
     click_cost=1
 
 
