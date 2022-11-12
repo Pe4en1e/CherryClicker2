@@ -17,6 +17,14 @@ def startgame():
     game.show()
 
 
+def savegame():
+    playerscore = {
+        'playerscore': Clicks.total
+    }
+    with open('data/playerdata.yml', 'w') as f:
+        yaml.dump(playerscore, f)
+    game.close()
+
 
 class Ui_Launcher(QMainWindow):
 
@@ -49,7 +57,7 @@ class Ui_Launcher(QMainWindow):
 
 
 class Clicks():
-    yaml_file = open('playerdata.yml', 'r')
+    yaml_file = open('data/playerdata.yml', 'r')
     data = yaml.load(yaml_file, Loader=Loader)
     total = data['playerscore']
     click_cost=1
@@ -117,6 +125,7 @@ class Ui_CherryClicker(object):
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(Clicks.total)))
         self.main_btn.clicked.connect(self.addscore)
+        self.exit_btn.clicked.connect(savegame)
         
 
     def addscore(self):
