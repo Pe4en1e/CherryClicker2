@@ -124,6 +124,8 @@ class score():
     cake_count = data['cherrycake_count']
     cake_price = data['cherrycake_price']
     per_click = data['per_click']
+    click_factor = 1.5
+    auto_factor = 1.3
 
 
 class autoscore():
@@ -426,7 +428,7 @@ class Ui_CherryClicker(object):
             score.jam_count += 1
             autoscore.total += 5
             score.total = score.total-score.jam_price
-            score.jam_price = round(score.jam_price*1.1**score.jam_count)
+            score.jam_price = round(score.jam_price*score.auto_factor)
             self.cherryjam_count.setText(str(score.jam_count))
             self.cherryjam_price.setText(str(score.jam_price))
             self.per_second.setText(str(autoscore.total))
@@ -439,7 +441,7 @@ class Ui_CherryClicker(object):
             score.pie_count += 1
             autoscore.total += 10
             score.total = score.total-score.pie_price
-            score.pie_price = round(score.pie_price*1.1**score.pie_count)
+            score.pie_price = round(score.pie_price*score.auto_factor)
             self.cherrypie_count.setText(str(score.pie_count))
             self.cherrypie_price.setText(str(score.pie_price))
             self.per_second.setText(str(autoscore.total))
@@ -452,7 +454,7 @@ class Ui_CherryClicker(object):
             score.cake_count += 1
             score.per_click += 1
             score.total = score.total-score.cake_price
-            score.cake_price = round(score.cake_price*1.2**score.cake_count)
+            score.cake_price = round(score.cake_price*score.click_factor)
             self.cherrycake_count.setText(str(score.cake_count))
             self.cherrycake_price.setText(str(score.cake_price))
             self.click_cost.setText(str(score.per_click))
