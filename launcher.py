@@ -8,11 +8,12 @@ from PyQt6.QtMultimedia import QSoundEffect
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 import yaml
 from yaml import Loader, Dumper
-from data.scorecounter import cherryjam, autoscore
+# from scorecounter import cherryjam, autoscore
 
 
 sfx_path = "sounds/effect.wav"
-
+yaml_file = open('data/playerdata.yml', 'r')
+data = yaml.load(yaml_file, Loader=Loader)
 
 def startgame():
     launcher.close()
@@ -24,7 +25,7 @@ def exitgame():
 
 def savegame():
     playerscore = {
-        'playerscore': Clicks.total,
+        'playerscore': score.total,
         'cherryjam_count': 0
         }
     with open('data/playerdata.yml', 'w') as f:
@@ -61,11 +62,10 @@ class Ui_Launcher(QMainWindow):
         self.start_btn.setText(_translate("Launcher", "Начать игру"))
 
 
-class Clicks():
-    yaml_file = open('data/playerdata.yml', 'r')
-    data = yaml.load(yaml_file, Loader=Loader)
+class score():
     total = data['playerscore']
-    click_cost=1
+    jam_count = data['cherryjam_count']
+    per_click = 1
 
 
 class Ui_CherryClicker(object):
@@ -310,13 +310,13 @@ class Ui_CherryClicker(object):
         self.price_text.setText(_translate("CherryClicker", "Цена"))
         self.price_text_2.setText(_translate("CherryClicker", "Кол-во"))
         self.cherryjam_price.setText(_translate("CherryClicker", "15"))
-        self.cherryjam_count.setText(_translate("CherryClicker", "0"))
+        self.cherryjam_count.setText(_translate("CherryClicker", str(cherryjam.count)))
         self.cherrypie_count.setText(_translate("CherryClicker", "0"))
         self.cherrycake_count.setText(_translate("CherryClicker", "0"))
         self.cherrypie_price.setText(_translate("CherryClicker", "100"))
         self.cherrycake_price.setText(_translate("CherryClicker", "150"))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
-        self.score.setText(_translate("CherryClicker", str(Clicks.total)))
+        self.score.setText(_translate("CherryClicker", str(score.total)))
         self.main_btn.clicked.connect(self.addscore)
         self.exit_btn.clicked.connect(exitgame)
         self.save_btn.clicked.connect(savegame)
@@ -328,18 +328,28 @@ class Ui_CherryClicker(object):
         self.timer.start()
         
 
+        self.cherryjam_btn.clicked.connect(self.buy_cherryjam)
+
     def autofarm(self):
-        Clicks.total += autoscore.total
-        self.score.setText(str(Clicks.total))
+        score.total += autoscore.total
+        self.score.setText(str(score.total))
 
 
     def addscore(self):
-        Clicks.total += Clicks.click_cost
+        score.total += score.per_click
         self.sfx.play()
-        self.score.setText(str(Clicks.total))
+        self.score.setText(str(score.total))
 
-    
+    def buy_cherryjam(self):
+        jam_count = int(data['cherryjam_count'])
+        if score.total >= cherryjam.price:
+            print('wewew')
+            
+        else:
+            print('ты нищий')
 
+
+print(score.jam_count)
 
 app=QApplication(sys.argv)
 ui = Ui_Launcher()
