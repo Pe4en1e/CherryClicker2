@@ -25,7 +25,9 @@ def exitgame():
 def savegame():
     playerscore = {
         'playerscore': score.total,
-        'cherryjam_count': score.jam_count
+        'cherryjam_count': score.jam_count,
+        'cherryjam_price': score.jam_price,
+        'autoscore': autoscore.total
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -65,15 +67,12 @@ class Ui_Launcher(QMainWindow):
 class score():
     total = data['playerscore']
     jam_count = data['cherryjam_count']
+    jam_price = data['cherryjam_price']
     per_click = 1
 
-class cherryjam():
-    count  = score.jam_count
-    price = round(15*1.1**count)
-    buff = 5
 
 class autoscore():
-    total = cherryjam.buff*score.jam_count
+    total = data['autoscore']
 
 class Ui_CherryClicker(object):
     def setupUi(self, CherryClicker):
@@ -316,7 +315,7 @@ class Ui_CherryClicker(object):
         self.shop_text.setText(_translate("CherryClicker", "Магазин"))
         self.price_text.setText(_translate("CherryClicker", "Цена"))
         self.price_text_2.setText(_translate("CherryClicker", "Кол-во"))
-        self.cherryjam_price.setText(_translate("CherryClicker", "15"))
+        self.cherryjam_price.setText(_translate("CherryClicker", str(score.jam_price)))
         self.cherryjam_count.setText(_translate("CherryClicker", str(score.jam_count)))
         self.cherrypie_count.setText(_translate("CherryClicker", "0"))
         self.cherrycake_count.setText(_translate("CherryClicker", "0"))
@@ -348,8 +347,15 @@ class Ui_CherryClicker(object):
         self.score.setText(str(score.total))
 
     def buy_cherryjam(self):
-        if score.total >= cherryjam.price:
+        if score.total >= score.jam_price:
             score.jam_count += 1
+            autoscore.total += 5
+            score.total = score.total-score.jam_price
+            score.jam_price = round(score.jam_price*1.01**score.jam_count)
+            self.cherryjam_count.setText(str(score.jam_count))
+            self.cherryjam_price.setText(str(score.jam_price))
+            self.per_second.setText(str(autoscore.total))
+            self.score.setText(str(score.total))
             
         else:
             print('ты нищий')
