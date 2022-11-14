@@ -8,17 +8,16 @@ from PyQt6.QtMultimedia import QSoundEffect
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 import yaml
 from yaml import Loader, Dumper
-# from scorecounter import cherryjam, autoscore
 
 
 sfx_path = "sounds/effect.wav"
 yaml_file = open('data/playerdata.yml', 'r')
 data = yaml.load(yaml_file, Loader=Loader)
 
+
 def startgame():
     launcher.close()
     game.show()
-
 
 def exitgame():
     game.close()
@@ -26,7 +25,7 @@ def exitgame():
 def savegame():
     playerscore = {
         'playerscore': score.total,
-        'cherryjam_count': 0
+        'cherryjam_count': score.jam_count
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -62,11 +61,19 @@ class Ui_Launcher(QMainWindow):
         self.start_btn.setText(_translate("Launcher", "Начать игру"))
 
 
+
 class score():
     total = data['playerscore']
     jam_count = data['cherryjam_count']
     per_click = 1
 
+class cherryjam():
+    count  = score.jam_count
+    price = round(15*1.1**count)
+    buff = 5
+
+class autoscore():
+    total = cherryjam.buff*score.jam_count
 
 class Ui_CherryClicker(object):
     def setupUi(self, CherryClicker):
@@ -310,7 +317,7 @@ class Ui_CherryClicker(object):
         self.price_text.setText(_translate("CherryClicker", "Цена"))
         self.price_text_2.setText(_translate("CherryClicker", "Кол-во"))
         self.cherryjam_price.setText(_translate("CherryClicker", "15"))
-        self.cherryjam_count.setText(_translate("CherryClicker", str(cherryjam.count)))
+        self.cherryjam_count.setText(_translate("CherryClicker", str(score.jam_count)))
         self.cherrypie_count.setText(_translate("CherryClicker", "0"))
         self.cherrycake_count.setText(_translate("CherryClicker", "0"))
         self.cherrypie_price.setText(_translate("CherryClicker", "100"))
@@ -341,15 +348,14 @@ class Ui_CherryClicker(object):
         self.score.setText(str(score.total))
 
     def buy_cherryjam(self):
-        jam_count = int(data['cherryjam_count'])
         if score.total >= cherryjam.price:
-            print('wewew')
+            score.jam_count += 1
             
         else:
             print('ты нищий')
 
 
-print(score.jam_count)
+
 
 app=QApplication(sys.argv)
 ui = Ui_Launcher()
