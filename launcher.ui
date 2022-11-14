@@ -10,8 +10,27 @@
     <height>320</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>640</width>
+    <height>320</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>640</width>
+    <height>320</height>
+   </size>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
   <property name="windowTitle">
    <string>Launcher</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>favicon.ico</normaloff>favicon.ico</iconset>
   </property>
   <property name="locale">
    <locale language="Ukrainian" country="Ukraine"/>
@@ -20,18 +39,27 @@
    <widget class="QPushButton" name="newgame_btn">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>120</y>
-      <width>141</width>
-      <height>31</height>
+      <x>10</x>
+      <y>130</y>
+      <width>171</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #7f5af0;
+color: #fffffe
+</string>
     </property>
     <property name="text">
      <string>Новая игра</string>
@@ -40,23 +68,54 @@
    <widget class="QPushButton" name="continue_btn">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>160</y>
-      <width>141</width>
-      <height>31</height>
+      <x>10</x>
+      <y>180</y>
+      <width>171</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #7f5af0;
+color: #fffffe
+</string>
     </property>
     <property name="text">
      <string>Продолжить </string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>641</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>images/launcher.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>label</zorder>
+   <zorder>newgame_btn</zorder>
+   <zorder>continue_btn</zorder>
   </widget>
  </widget>
  <resources/>
