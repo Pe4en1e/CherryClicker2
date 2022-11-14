@@ -68,7 +68,6 @@ class Ui_Launcher(QMainWindow):
         self.start_btn.setText(_translate("Launcher", "Начать игру"))
 
 
-
 class score():
     total = data['playerscore']
     jam_count = data['cherryjam_count']
