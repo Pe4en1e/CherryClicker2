@@ -26,6 +26,8 @@ def newgame():
     score.per_click = 1
     score.cake_count = 0
     score.cake_price = 150
+    score.vyshnivka_count = 0
+    score.vyshnivka_price = 400
     game.show()
 
 def continuegame():
@@ -46,7 +48,9 @@ def savegame():
         'cherrypie_count': score.pie_count,
         'per_click': score.per_click,
         'cherrycake_count': score.cake_count,
-        'cherrycake_price': score.cake_price
+        'cherrycake_price': score.cake_price,
+        'vyshnivka_count': score.vyshnivka_count,
+        'vyshnivka_price': score.vyshnivka_price
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -124,6 +128,8 @@ class score():
     cake_count = data['cherrycake_count']
     cake_price = data['cherrycake_price']
     per_click = data['per_click']
+    vyshnivka_count = data['vyshnivka_count']
+    vyshnivka_price = data['vyshnivka_price']
     click_factor = 1.5
     auto_factor = 1.3
 
@@ -135,20 +141,21 @@ class Ui_CherryClicker(object):
     def setupUi(self, CherryClicker):
         CherryClicker.setObjectName("CherryClicker")
         CherryClicker.resize(1400, 800)
-        CherryClicker.setMaximumSize(1400,800)
+        CherryClicker.setMaximumSize(QSize(1400, 800))
+        icon = QIcon()
+        icon.addPixmap(QPixmap("favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
+        CherryClicker.setWindowIcon(icon)
+        CherryClicker.setLocale(QLocale(QLocale.Language.Ukrainian, QLocale.Country.Ukraine))
         self.centralwidget = QWidget(CherryClicker)
         self.centralwidget.setObjectName("centralwidget")
         self.main_btn = QPushButton(self.centralwidget)
-        self.main_btn.setGeometry(QRect(70, 390, 291, 291))
+        self.main_btn.setGeometry(QRect(80, 440, 251, 251))
         self.main_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.main_btn.setStyleSheet("border-image:url(images/cherry.png)")
         self.main_btn.setText("")
         self.main_btn.setObjectName("main_btn")
         self.score = QLabel(self.centralwidget)
-        self.score.setGeometry(QRect(20, 100, 421, 81))
-        icon = QIcon()
-        icon.addPixmap(QPixmap("favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
-        CherryClicker.setWindowIcon(icon)
+        self.score.setGeometry(QRect(10, 100, 431, 81))
         font = QFont()
         font.setFamily("Play")
         font.setPointSize(46)
@@ -173,7 +180,7 @@ class Ui_CherryClicker(object):
         self.exit_btn.setText("")
         self.exit_btn.setObjectName("exit_btn")
         self.click_cost = QLabel(self.centralwidget)
-        self.click_cost.setGeometry(QRect(220, 200, 221, 41))
+        self.click_cost.setGeometry(QRect(280, 200, 161, 41))
         font = QFont()
         font.setFamily("Play")
         font.setPointSize(36)
@@ -195,7 +202,7 @@ class Ui_CherryClicker(object):
         self.per_second.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.per_second.setObjectName("per_second")
         self.line = QFrame(self.centralwidget)
-        self.line.setGeometry(QRect(450, -20, 20, 831))
+        self.line.setGeometry(QRect(440, -20, 20, 831))
         self.line.setLineWidth(5)
         self.line.setFrameShape(QFrame.Shape.VLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
@@ -335,6 +342,34 @@ class Ui_CherryClicker(object):
         self.cherrycake_price.setStyleSheet("color: rgb(255, 255, 255)")
         self.cherrycake_price.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.cherrycake_price.setObjectName("cherrycake_price")
+        self.vyshnivka_count = QLabel(self.centralwidget)
+        self.vyshnivka_count.setGeometry(QRect(470, 360, 81, 51))
+        font = QFont()
+        font.setFamily("Play")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.vyshnivka_count.setFont(font)
+        self.vyshnivka_count.setStyleSheet("color: rgb(255, 255, 255)")
+        self.vyshnivka_count.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.vyshnivka_count.setObjectName("vyshnivka_count")
+        self.vyshnivka_btn = QPushButton(self.centralwidget)
+        self.vyshnivka_btn.setGeometry(QRect(560, 360, 391, 61))
+        self.vyshnivka_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.vyshnivka_btn.setStyleSheet("border-image:url(images/vyshnivka_btn.png)")
+        self.vyshnivka_btn.setText("")
+        self.vyshnivka_btn.setObjectName("vyshnivka_btn")
+        self.vyshnivka_price = QLabel(self.centralwidget)
+        self.vyshnivka_price.setGeometry(QRect(960, 360, 141, 51))
+        font = QFont()
+        font.setFamily("Play")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.vyshnivka_price.setFont(font)
+        self.vyshnivka_price.setStyleSheet("color: rgb(255, 255, 255)")
+        self.vyshnivka_price.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.vyshnivka_price.setObjectName("vyshnivka_price")
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -356,6 +391,9 @@ class Ui_CherryClicker(object):
         self.cherrycake_count.raise_()
         self.cherrypie_price.raise_()
         self.cherrycake_price.raise_()
+        self.vyshnivka_count.raise_()
+        self.vyshnivka_btn.raise_()
+        self.vyshnivka_price.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
 
 
@@ -381,6 +419,8 @@ class Ui_CherryClicker(object):
         self.cherrycake_count.setText(_translate("CherryClicker", str(score.cake_count)))
         self.cherrypie_price.setText(_translate("CherryClicker", str(score.pie_price)))
         self.cherrycake_price.setText(_translate("CherryClicker", str(score.cake_count)))
+        self.vyshnivka_count.setText(_translate("CherryClicker", str(score.vyshnivka_count)))
+        self.vyshnivka_price.setText(_translate("CherryClicker", str(score.vyshnivka_price)))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(score.total)))
         self.main_btn.clicked.connect(self.addscore)
@@ -397,6 +437,7 @@ class Ui_CherryClicker(object):
         self.cherryjam_btn.clicked.connect(self.buy_cherryjam)
         self.cherrypie_btn.clicked.connect(self.buy_cherrypie)
         self.cherrycake_btn.clicked.connect(self.buy_cherrycake)
+        self.vyshnivka_btn.clicked.connect(self.buy_vyshnivka)
 
     def resettext(self):
         self.score.setText(str(score.total))
@@ -416,6 +457,8 @@ class Ui_CherryClicker(object):
         self.cherrypie_price.setText(str(score.pie_price))
         self.cherrycake_count.setText(str(score.cake_count))
         self.cherrycake_price.setText(str(score.cake_price))
+        self.vyshnivka_count.setText(str(score.vyshnivka_count))
+        self.vyshnivka_price.setText(str(score.vyshnivka_price))
 
 
     def addscore(self):
@@ -461,6 +504,20 @@ class Ui_CherryClicker(object):
             self.score.setText(str(score.total))
         else:
             print('ты нищий')
+    
+    def buy_vyshnivka(self):
+        if score.total >= score.vyshnivka_price and score.cake_count >=1:
+            score.vyshnivka_count += 1
+            autoscore.total += 50
+            score.total = score.total - score.vyshnivka_price
+            score.vyshnivka_price = round(score.vyshnivka_price*score.auto_factor)
+            self.vyshnivka_count.setText(str(score.vyshnivka_count))
+            self.vyshnivka_price.setText(str(score.vyshnivka_price))
+            self.per_second.setText(str(autoscore.total))
+            self.score.setText(str(score.total))
+        else:
+            print('ты нищий')
+
 
 app=QApplication(sys.argv)
 ui = Ui_Launcher()

@@ -10,8 +10,18 @@
     <height>800</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1400</width>
+    <height>800</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>CherryClicker</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>favicon.ico</normaloff>favicon.ico</iconset>
   </property>
   <property name="locale">
    <locale language="Ukrainian" country="Ukraine"/>
@@ -20,10 +30,10 @@
    <widget class="QPushButton" name="main_btn">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>390</y>
-      <width>291</width>
-      <height>291</height>
+      <x>80</x>
+      <y>440</y>
+      <width>251</width>
+      <height>251</height>
      </rect>
     </property>
     <property name="cursor">
@@ -39,9 +49,9 @@
    <widget class="QLabel" name="score">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>100</y>
-      <width>421</width>
+      <width>431</width>
       <height>81</height>
      </rect>
     </property>
@@ -108,9 +118,9 @@
    <widget class="QLabel" name="click_cost">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>280</x>
       <y>200</y>
-      <width>221</width>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
@@ -162,7 +172,7 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>440</x>
       <y>-20</y>
       <width>20</width>
       <height>831</height>
@@ -295,6 +305,9 @@
       <width>391</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">border-image:url(images/cherrycake_btn.png)</string>
@@ -519,6 +532,79 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="vyshnivka_count">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>360</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Play</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255)</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="vyshnivka_btn">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>360</y>
+      <width>391</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image:url(images/vyshnivka_btn.png)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vyshnivka_price">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>360</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Play</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255)</string>
+    </property>
+    <property name="text">
+     <string>400</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>score</zorder>
    <zorder>main_btn</zorder>
@@ -540,6 +626,9 @@
    <zorder>cherrycake_count</zorder>
    <zorder>cherrypie_price</zorder>
    <zorder>cherrycake_price</zorder>
+   <zorder>vyshnivka_count</zorder>
+   <zorder>vyshnivka_btn</zorder>
+   <zorder>vyshnivka_price</zorder>
   </widget>
  </widget>
  <resources/>
