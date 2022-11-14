@@ -27,7 +27,12 @@ def savegame():
         'playerscore': score.total,
         'cherryjam_count': score.jam_count,
         'cherryjam_price': score.jam_price,
-        'autoscore': autoscore.total
+        'autoscore': autoscore.total,
+        'cherrypie_price': score.pie_price,
+        'cherrypie_count': score.pie_count,
+        'per_click': score.per_click,
+        'cherrycake_count': score.cake_count,
+        'cherrycake_price': score.cake_price
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -68,7 +73,11 @@ class score():
     total = data['playerscore']
     jam_count = data['cherryjam_count']
     jam_price = data['cherryjam_price']
-    per_click = 1
+    pie_count = data['cherrypie_count']
+    pie_price = data ['cherrypie_price']
+    cake_count = data['cherrycake_count']
+    cake_price = data['cherrycake_price']
+    per_click = data['per_click']
 
 
 class autoscore():
@@ -317,10 +326,10 @@ class Ui_CherryClicker(object):
         self.price_text_2.setText(_translate("CherryClicker", "Кол-во"))
         self.cherryjam_price.setText(_translate("CherryClicker", str(score.jam_price)))
         self.cherryjam_count.setText(_translate("CherryClicker", str(score.jam_count)))
-        self.cherrypie_count.setText(_translate("CherryClicker", "0"))
-        self.cherrycake_count.setText(_translate("CherryClicker", "0"))
-        self.cherrypie_price.setText(_translate("CherryClicker", "100"))
-        self.cherrycake_price.setText(_translate("CherryClicker", "150"))
+        self.cherrypie_count.setText(_translate("CherryClicker", str(score.pie_count)))
+        self.cherrycake_count.setText(_translate("CherryClicker", str(score.cake_count)))
+        self.cherrypie_price.setText(_translate("CherryClicker", str(score.pie_price)))
+        self.cherrycake_price.setText(_translate("CherryClicker", str(score.cake_count)))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(score.total)))
         self.main_btn.clicked.connect(self.addscore)
@@ -335,6 +344,8 @@ class Ui_CherryClicker(object):
         
 
         self.cherryjam_btn.clicked.connect(self.buy_cherryjam)
+        self.cherrypie_btn.clicked.connect(self.buy_cherrypie)
+        self.cherrycake_btn.clicked.connect(self.buy_cherrycake)
 
     def autofarm(self):
         score.total += autoscore.total
@@ -356,12 +367,34 @@ class Ui_CherryClicker(object):
             self.cherryjam_price.setText(str(score.jam_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
-            
         else:
             print('ты нищий')
 
+    def buy_cherrypie(self):
+        if score.total >= score.pie_price and score.jam_count>=1:
+            score.pie_count += 1
+            autoscore.total += 10
+            score.total = score.total-score.pie_price
+            score.pie_price = round(score.pie_price*1.05**score.pie_count)
+            self.cherrypie_count.setText(str(score.pie_count))
+            self.cherrypie_price.setText(str(score.pie_price))
+            self.per_second.setText(str(autoscore.total))
+            self.score.setText(str(score.total))
+        else:
+            print('ты нищий')
 
-
+    def buy_cherrycake(self):
+        if score.total >= score.cake_price and score.pie_count>=1:
+            score.cake_count += 1
+            score.per_click += 1
+            score.total = score.total-score.cake_price
+            score.cake_price = round(score.cake_price*1.2**score.cake_count)
+            self.cherrycake_count.setText(str(score.cake_count))
+            self.cherrycake_price.setText(str(score.cake_price))
+            self.click_cost.setText(str(score.per_click))
+            self.score.setText(str(score.total))
+        else:
+            print('ты нищий')
 
 app=QApplication(sys.argv)
 ui = Ui_Launcher()
