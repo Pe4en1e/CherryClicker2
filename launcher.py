@@ -402,7 +402,7 @@ class Ui_CherryClicker(object):
             score.jam_count += 1
             autoscore.total += 5
             score.total = score.total-score.jam_price
-            score.jam_price = round(score.jam_price*1.01**score.jam_count)
+            score.jam_price = round(score.jam_price*1.1**score.jam_count)
             self.cherryjam_count.setText(str(score.jam_count))
             self.cherryjam_price.setText(str(score.jam_price))
             self.per_second.setText(str(autoscore.total))
@@ -415,7 +415,7 @@ class Ui_CherryClicker(object):
             score.pie_count += 1
             autoscore.total += 10
             score.total = score.total-score.pie_price
-            score.pie_price = round(score.pie_price*1.05**score.pie_count)
+            score.pie_price = round(score.pie_price*1.1**score.pie_count)
             self.cherrypie_count.setText(str(score.pie_count))
             self.cherrypie_price.setText(str(score.pie_price))
             self.per_second.setText(str(autoscore.total))
