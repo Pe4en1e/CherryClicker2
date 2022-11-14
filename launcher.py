@@ -15,12 +15,26 @@ yaml_file = open('data/playerdata.yml', 'r')
 data = yaml.load(yaml_file, Loader=Loader)
 
 
-def startgame():
+def newgame():
+    launcher.close()
+    score.total = 0
+    score.jam_count = 0
+    score.jam_price = 15
+    autoscore.total = 0
+    score.pie_price = 100
+    score.pie_count = 0
+    score.per_click = 1
+    score.cake_count = 0
+    score.cake_price = 150
+    game.show()
+
+def continuegame():
     launcher.close()
     game.show()
 
 def exitgame():
     game.close()
+    launcher.show()
 
 def savegame():
     playerscore = {
@@ -44,20 +58,31 @@ class Ui_Launcher(QMainWindow):
     def setupUi(self, Launcher):
         Launcher.setObjectName("Launcher")
         Launcher.resize(640, 320)
+        launcher.setMaximumSize(640, 320)
         self.centralwidget = QWidget(Launcher)
         self.centralwidget.setObjectName("centralwidget")
-        self.start_btn = QPushButton(self.centralwidget)
-        self.start_btn.setGeometry(QRect(340, 130, 141, 31))
-        self.start_btn.setObjectName("start_btn")
+        self.newgame_btn = QPushButton(self.centralwidget)
+        self.newgame_btn.setGeometry(QRect(340, 120, 141, 31))
+        font = QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.newgame_btn.setFont(font)
+        self.newgame_btn.setObjectName("newgame_btn")
+        self.continue_btn = QPushButton(self.centralwidget)
+        self.continue_btn.setGeometry(QRect(340, 160, 141, 31))
+        font = QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.continue_btn.setFont(font)
+        self.continue_btn.setObjectName("continue_btn")
         Launcher.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(Launcher)
-        self.menubar.setGeometry(QRect(0, 0, 640, 21))
-        self.menubar.setObjectName("menubar")
-        Launcher.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(Launcher)
-        self.statusbar.setObjectName("statusbar")
-        Launcher.setStatusBar(self.statusbar)
-        self.start_btn.clicked.connect(startgame)
+
+
+
+        self.continue_btn.clicked.connect(continuegame)
+        self.newgame_btn.clicked.connect(newgame)
 
         self.retranslateUi(Launcher)
         QMetaObject.connectSlotsByName(Launcher)
@@ -65,7 +90,8 @@ class Ui_Launcher(QMainWindow):
     def retranslateUi(self, Launcher):
         _translate = QCoreApplication.translate
         Launcher.setWindowTitle(_translate("Launcher", "Launcher"))
-        self.start_btn.setText(_translate("Launcher", "Начать игру"))
+        self.newgame_btn.setText(_translate("Launcher", "Новая игра"))
+        self.continue_btn.setText(_translate("Launcher", "Продолжить "))
 
 
 class score():
@@ -346,9 +372,24 @@ class Ui_CherryClicker(object):
         self.cherrypie_btn.clicked.connect(self.buy_cherrypie)
         self.cherrycake_btn.clicked.connect(self.buy_cherrycake)
 
+    def resettext(self):
+        self.score.setText(str(score.total))
+        self.click_cost.setText(str(score.per_click))
+        self.per_second.setText(str(autoscore.total))
+        self.cherryjam_count.setText(str(score.jam_count))
+        self.cherryjam_price.setText(str(score.jam_price))
+
     def autofarm(self):
         score.total += autoscore.total
         self.score.setText(str(score.total))
+        self.click_cost.setText(str(score.per_click))
+        self.per_second.setText(str(autoscore.total))
+        self.cherryjam_count.setText(str(score.jam_count))
+        self.cherryjam_price.setText(str(score.jam_price))
+        self.cherrypie_count.setText(str(score.pie_count))
+        self.cherrypie_price.setText(str(score.pie_price))
+        self.cherrycake_count.setText(str(score.cake_count))
+        self.cherrycake_price.setText(str(score.cake_price))
 
 
     def addscore(self):

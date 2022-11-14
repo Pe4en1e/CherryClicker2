@@ -17,31 +17,47 @@
    <locale language="Ukrainian" country="Ukraine"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="start_btn">
+   <widget class="QPushButton" name="newgame_btn">
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>130</y>
+      <y>120</y>
       <width>141</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Новая игра</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="continue_btn">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>160</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Продолжить </string>
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>640</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
