@@ -130,8 +130,8 @@ class score():
     per_click = data['per_click']
     vyshnivka_count = data['vyshnivka_count']
     vyshnivka_price = data['vyshnivka_price']
-    click_factor = 1.5
-    auto_factor = 1.3
+    click_factor = 1.4
+    auto_factor = 1.2
 
 
 class autoscore():
