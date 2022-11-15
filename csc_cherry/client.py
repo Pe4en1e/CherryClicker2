@@ -8,3 +8,6 @@ while True:
     data = client.recv(1024)
 
     print(data.decode('utf-8'))
+
+    x = input()
+    client.send(x.encode('utf-8'))

@@ -9,3 +9,7 @@ while True:
     user, adres = server.accept()
     print('User connected!')
     user.send('Server is working!'.encode('utf-8'))
+
+    data = user.recv(1024)
+    print(data.decode('utf-8'))
+    user.send('Server is working!!!'.encode('utf-8'))
