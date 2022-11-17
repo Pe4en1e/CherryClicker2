@@ -99,9 +99,9 @@
    <widget class="QPushButton" name="exit_btn">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1140</x>
       <y>40</y>
-      <width>201</width>
+      <width>241</width>
       <height>71</height>
      </rect>
     </property>
@@ -178,6 +178,9 @@
       <height>831</height>
      </rect>
     </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
     <property name="lineWidth">
      <number>5</number>
     </property>
@@ -189,7 +192,7 @@
     <property name="geometry">
      <rect>
       <x>1100</x>
-      <y>0</y>
+      <y>-10</y>
       <width>20</width>
       <height>831</height>
      </rect>
@@ -207,15 +210,15 @@
    <widget class="QPushButton" name="save_btn">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1140</x>
       <y>120</y>
-      <width>201</width>
-      <height>41</height>
+      <width>241</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Bubbleboddy Neue Trial</family>
+      <family>Microsoft YaHei UI Light</family>
       <pointsize>18</pointsize>
       <weight>75</weight>
       <italic>false</italic>
@@ -228,8 +231,11 @@
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image:url(images/save_btn.png)</string>
+    </property>
     <property name="text">
-     <string>СОХРАНИТЬ</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="shop_text">
@@ -605,6 +611,109 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="notify">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>350</y>
+      <width>441</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>24</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #ffffff</string>
+    </property>
+    <property name="text">
+     <string>NOTIFY</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="makskust_btn">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>440</y>
+      <width>391</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image:url(images/maxkust.png)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="makskust_price">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>440</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Play</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255)</string>
+    </property>
+    <property name="text">
+     <string>800</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="makskust_count">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>440</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Play</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255)</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>score</zorder>
    <zorder>main_btn</zorder>
@@ -629,6 +738,10 @@
    <zorder>vyshnivka_count</zorder>
    <zorder>vyshnivka_btn</zorder>
    <zorder>vyshnivka_price</zorder>
+   <zorder>notify</zorder>
+   <zorder>makskust_btn</zorder>
+   <zorder>makskust_price</zorder>
+   <zorder>makskust_count</zorder>
   </widget>
  </widget>
  <resources/>
