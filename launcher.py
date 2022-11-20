@@ -8,10 +8,12 @@ from PyQt6.QtMultimedia import QSoundEffect
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 import yaml
 from yaml import Loader, Dumper
+from numerize.numerize import numerize
 
 
 sfx_path = "sounds/effect.wav"
 click_sfx_path = 'sounds/click_sfx.wav'
+mur_sfx_path = 'sounds/mur.wav'
 yaml_file = open('data/playerdata.yml', 'r')
 data = yaml.load(yaml_file, Loader=Loader)
 
@@ -36,6 +38,9 @@ def newgame():
     score.hqd_price = 3000
     score.hqd_count = 0
     score.rebirth_pb = 0
+    score.rebirth_tier = 1
+    score.rebirth_goal = 1
+    score.rebirth_boost = 1
     game.show()
 
 def continuegame():
@@ -66,15 +71,15 @@ def savegame():
         'hqd_count': score.hqd_count,
         'hqd_price': score.hqd_price,
         'rb_tier': score.rebirth_tier,
-        'rb_progress': score.rebirth_pb
+        'rb_progress': score.rebirth_pb,
+        'rb_goal': score.rebirth_goal,
+        'rb_boost': score.rebirth_boost
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
 
 
 class Ui_Launcher(QMainWindow):
-
-
     def setupUi(self, Launcher):
         Launcher.setObjectName("Launcher")
         Launcher.resize(640, 320)
@@ -163,6 +168,8 @@ class score():
     hqd_count = data['hqd_count']
     rebirth_tier = data['rb_tier']
     rebirth_pb = data['rb_progress']
+    rebirth_goal = data['rb_goal']
+    rebirth_boost = data['rb_boost']
     click_factor = 1.5
     auto_factor = 1.3
 
@@ -524,6 +531,17 @@ class Ui_CherryClicker(object):
         self.rb_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.rb_btn.setObjectName("rb_btn")
         self.rb_btn.setEnabled(False)
+        self.rb_boost = QLabel(self.centralwidget)
+        self.rb_boost.setGeometry(QRect(1140, 310, 241, 41))
+        font = QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(18)
+        font.setBold(False)
+        font.setWeight(50)
+        self.rb_boost.setFont(font)
+        self.rb_boost.setStyleSheet("color: #ffffff")
+        self.rb_boost.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.rb_boost.setObjectName("rb_boost")
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -561,6 +579,7 @@ class Ui_CherryClicker(object):
         self.rb_bar.raise_()
         self.rb_txt.raise_()
         self.rb_btn.raise_()
+        self.rb_boost.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
 
 
@@ -568,6 +587,8 @@ class Ui_CherryClicker(object):
         self.sfx.setSource(QUrl.fromLocalFile(sfx_path))
         self.click_sfx = QSoundEffect() # click
         self.click_sfx.setSource(QUrl.fromLocalFile(click_sfx_path))
+        self.mur_sfx = QSoundEffect()
+        self.mur_sfx.setSource(QUrl.fromLocalFile(mur_sfx_path))
 
     
         self.retranslateUi(CherryClicker)
@@ -597,10 +618,12 @@ class Ui_CherryClicker(object):
         self.hqd_price.setText(_translate("CherryClicker", str(score.hqd_price)))
         self.rb_txt.setText(_translate("CherryClicker", "Tier 1"))
         self.rb_btn.setText(_translate("CherryClicker", "RE-BIRTH"))
+        self.rb_boost.setText(_translate("CherryClicker", "Буст уровня: x"+ str(score.rebirth_tier)))
 
         self.notify.setText(_translate("CherryClicker", ""))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
         self.score.setText(_translate("CherryClicker", str(score.total)))
+
         self.main_btn.clicked.connect(self.addscore)
         self.exit_btn.clicked.connect(exitgame)
         self.exit_btn.clicked.connect(self.play_click_sfx)
@@ -621,6 +644,7 @@ class Ui_CherryClicker(object):
         self.makskust_btn.clicked.connect(self.buy_makskust)
         self.mur_btn.clicked.connect(self.buy_mur)
         self.hqd_btn.clicked.connect(self.buy_hqd)
+        self.rb_btn.clicked.connect(self.rebirth)
 
         
     def play_click_sfx(self):
@@ -632,9 +656,10 @@ class Ui_CherryClicker(object):
     def noprev(self):
         self.notify.setText('Купите предыдущее\nулучшение!')
 
+
     def autofarm(self):
         score.total += autoscore.total
-        self.score.setText(str(score.total))
+        self.score.setText(numerize(score.total, 2))
         self.click_cost.setText(str(score.per_click))
         self.per_second.setText(str(autoscore.total))
         self.cherryjam_count.setText(str(score.jam_count))
@@ -651,9 +676,11 @@ class Ui_CherryClicker(object):
         self.mur_price.setText(str(score.mur_price))
         self.hqd_count.setText(str(score.hqd_count))
         self.hqd_price.setText(str(score.hqd_price))
-        score.rebirth_pb = score.total/10000
+        self.rb_txt.setText('Tier: ' + str(score.rebirth_tier))
+        self.rb_boost.setText("Буст уровня: x"+ str(score.rebirth_boost))
+        score.rebirth_pb = score.total
         self.rb_bar.setProperty('value', score.rebirth_pb)
-        if score.total >= 1000000:
+        if score.total >= 100*score.rebirth_goal:
             self.rb_btn.setEnabled(True)
         else:
             self.rb_btn.setEnabled(False)
@@ -663,19 +690,20 @@ class Ui_CherryClicker(object):
     def addscore(self):
         score.total += score.per_click
         self.sfx.play()
-        self.score.setText(str(score.total))
-        score.rebirth_pb = score.total/10000
+        self.score.setText(numerize(score.total, 2))
+        score.rebirth_pb = score.total
         self.rb_bar.setProperty('value', score.rebirth_pb)
-        if score.total >= 1000000:
+        if score.total >= 100*score.rebirth_goal:
             self.rb_btn.setEnabled(True)
         else:
             self.rb_btn.setEnabled(False)
+
 
     def buy_cherryjam(self):
         self.play_click_sfx()
         if score.total >= score.jam_price:
             score.jam_count += 1
-            autoscore.total += 1
+            autoscore.total += 1*score.rebirth_boost
             score.total = score.total-score.jam_price
             score.jam_price = round(score.jam_price*score.auto_factor)
             self.cherryjam_count.setText(str(score.jam_count))
@@ -689,7 +717,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.pie_price and score.jam_count>=1:
             score.pie_count += 1
-            autoscore.total += 5
+            autoscore.total += 5*score.rebirth_boost
             score.total = score.total-score.pie_price
             score.pie_price = round(score.pie_price*score.auto_factor)
             self.cherrypie_count.setText(str(score.pie_count))
@@ -705,7 +733,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.cake_price and score.pie_count>=1:
             score.cake_count += 1
-            score.per_click += 1
+            score.per_click += 1*score.rebirth_boost
             score.total = score.total-score.cake_price
             score.cake_price = round(score.cake_price*score.click_factor)
             self.cherrycake_count.setText(str(score.cake_count))
@@ -721,7 +749,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.vyshnivka_price and score.cake_count >=1:
             score.vyshnivka_count += 1
-            autoscore.total += 10
+            autoscore.total += 10*score.rebirth_boost
             score.total = score.total - score.vyshnivka_price
             score.vyshnivka_price = round(score.vyshnivka_price*score.auto_factor)
             self.vyshnivka_count.setText(str(score.vyshnivka_count))
@@ -737,7 +765,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.makskust_price and score.vyshnivka_count>=1:
             score.makskust_count += 1
-            autoscore.total += 25
+            autoscore.total += 25*score.rebirth_boost
             score.total = score.total - score.makskust_price
             score.makskust_price = round(score.makskust_price*score.auto_factor)
             self.makskust_count.setText(str(score.makskust_count))
@@ -749,28 +777,29 @@ class Ui_CherryClicker(object):
         else:
             self.nomoney()
 
-
     def buy_mur(self):
-        self.play_click_sfx()
         if score.total >= score.mur_price and score.makskust_count>=1:
             score.mur_count += 1
-            autoscore.total += 50
+            autoscore.total += 50*score.rebirth_boost
             score.total = score.total - score.mur_price
             score.mur_price = round(score.mur_price*score.auto_factor)
             self.mur_count.setText(str(score.mur_count))
             self.mur_price.setText(str(score.mur_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
+            self.mur_sfx.play()
         elif score.total >= score.mur_price and score.makskust_count==0:
             self.noprev()
+            self.play_click_sfx()
         else:
             self.nomoney()
+            self.play_click_sfx()
 
     def buy_hqd(self):
         self.play_click_sfx()
         if score.total >= score.hqd_price and score.mur_count>=1:
             score.hqd_count += 1
-            autoscore.total += 100
+            autoscore.total += 100*score.rebirth_boost
             score.total = score.total-score.hqd_price
             score.hqd_price = round(score.hqd_price*score.auto_factor)
             self.hqd_count.setText(str(score.hqd_count))
@@ -780,7 +809,40 @@ class Ui_CherryClicker(object):
         elif score.total >= score.hqd_price and score.mur_count>=0:
            self.noprev()
         else:
-            self.nomoney() 
+            self.nomoney()
+
+
+    def rebirth(self):
+        self.play_click_sfx()
+        score.rebirth_tier += 1
+        self.rb_btn.setEnabled(False)
+
+        score.total = 0
+        score.jam_count = 0
+        score.jam_price = 15
+        autoscore.total = 0
+        score.pie_price = 100
+        score.pie_count = 0
+        score.per_click = 1
+        score.cake_count = 0
+        score.cake_price = 150
+        score.vyshnivka_count = 0
+        score.vyshnivka_price = 400
+        score.makskust_count = 0
+        score.makskust_price = 800
+        score.mur_price = 1500
+        score.mur_count = 0
+        score.hqd_price = 3000
+        score.hqd_count = 0
+        score.rebirth_pb = 0
+
+        score.rebirth_goal = score.rebirth_goal*10
+        score.rebirth_boost += 0.5
+        self.rb_boost.setText("Буст уровня: x"+ str(score.rebirth_boost))
+
+
+
+
 
 
 app=QApplication(sys.argv)

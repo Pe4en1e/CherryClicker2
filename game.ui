@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>favicon.ico</normaloff>favicon.ico</iconset>
+    <normaloff>C:/Users/alex3/.designer/backup/favicon.ico</normaloff>C:/Users/alex3/.designer/backup/favicon.ico</iconset>
   </property>
   <property name="locale">
    <locale language="Ukrainian" country="Ukraine"/>
@@ -939,6 +939,33 @@ background-color: #7f5af0;
      <string>RE-BIRTH</string>
     </property>
    </widget>
+   <widget class="QLabel" name="rb_boost">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>310</y>
+      <width>241</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #ffffff</string>
+    </property>
+    <property name="text">
+     <string>Буст уровня: 0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>score</zorder>
    <zorder>main_btn</zorder>
@@ -976,6 +1003,7 @@ background-color: #7f5af0;
    <zorder>rb_bar</zorder>
    <zorder>rb_txt</zorder>
    <zorder>rb_btn</zorder>
+   <zorder>rb_boost</zorder>
   </widget>
  </widget>
  <resources/>

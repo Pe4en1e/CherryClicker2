@@ -16,7 +16,7 @@ class Ui_CherryClicker(object):
         CherryClicker.setMinimumSize(QtCore.QSize(1400, 800))
         CherryClicker.setMaximumSize(QtCore.QSize(1400, 800))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("favicon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("C:/Users/alex3/.designer/backup/favicon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         CherryClicker.setWindowIcon(icon)
         CherryClicker.setLocale(QtCore.QLocale(QtCore.QLocale.Language.Ukrainian, QtCore.QLocale.Country.Ukraine))
         self.centralwidget = QtWidgets.QWidget(CherryClicker)
@@ -344,7 +344,14 @@ class Ui_CherryClicker(object):
         self.rb_bar = QtWidgets.QProgressBar(self.centralwidget)
         self.rb_bar.setGeometry(QtCore.QRect(1140, 242, 241, 21))
         self.rb_bar.setAutoFillBackground(False)
-        self.rb_bar.setStyleSheet("#rb_bar{\n""background-color: #16161a;\n""border: 2px solid #FFFFFF;\n""}\n""\n""#rb_bar::chunk {\n""background-color: #7f5af0;\n""}")
+        self.rb_bar.setStyleSheet("#rb_bar{\n"
+"background-color: #16161a;\n"
+"border: 2px solid #FFFFFF;\n"
+"}\n"
+"\n"
+"#rb_bar::chunk {\n"
+"background-color: #7f5af0;\n"
+"}")
         self.rb_bar.setProperty("value", 24)
         self.rb_bar.setTextVisible(False)
         self.rb_bar.setObjectName("rb_bar")
@@ -362,6 +369,17 @@ class Ui_CherryClicker(object):
         self.rb_btn.setGeometry(QtCore.QRect(1140, 270, 241, 31))
         self.rb_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.rb_btn.setObjectName("rb_btn")
+        self.rb_boost = QtWidgets.QLabel(self.centralwidget)
+        self.rb_boost.setGeometry(QtCore.QRect(1140, 310, 241, 41))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(18)
+        font.setBold(False)
+        font.setWeight(50)
+        self.rb_boost.setFont(font)
+        self.rb_boost.setStyleSheet("color: #ffffff")
+        self.rb_boost.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.rb_boost.setObjectName("rb_boost")
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -399,6 +417,7 @@ class Ui_CherryClicker(object):
         self.rb_bar.raise_()
         self.rb_txt.raise_()
         self.rb_btn.raise_()
+        self.rb_boost.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(CherryClicker)
@@ -430,6 +449,7 @@ class Ui_CherryClicker(object):
         self.hqd_price.setText(_translate("CherryClicker", "3000"))
         self.rb_txt.setText(_translate("CherryClicker", "Tier 1"))
         self.rb_btn.setText(_translate("CherryClicker", "RE-BIRTH"))
+        self.rb_boost.setText(_translate("CherryClicker", "Буст уровня: 0"))
 
 
 if __name__ == "__main__":
