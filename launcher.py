@@ -35,6 +35,7 @@ def newgame():
     score.mur_count = 0
     score.hqd_price = 3000
     score.hqd_count = 0
+    score.rebirth_pb = 0
     game.show()
 
 def continuegame():
@@ -63,7 +64,9 @@ def savegame():
         'mur_count': score.mur_count,
         'mur_price': score.mur_price,
         'hqd_count': score.hqd_count,
-        'hqd_price': score.hqd_price
+        'hqd_price': score.hqd_price,
+        'rb_tier': score.rebirth_tier,
+        'rb_progress': score.rebirth_pb
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -158,6 +161,8 @@ class score():
     mur_price =data['mur_price']
     hqd_price = data['hqd_price']
     hqd_count = data['hqd_count']
+    rebirth_tier = data['rb_tier']
+    rebirth_pb = data['rb_progress']
     click_factor = 1.4
     auto_factor = 1.2
 
@@ -501,7 +506,7 @@ class Ui_CherryClicker(object):
         self.rb_bar.setGeometry(QRect(1140, 242, 241, 21))
         self.rb_bar.setAutoFillBackground(False)
         self.rb_bar.setStyleSheet("#rb_bar{\n""background-color: #16161a;\n""border: 2px solid #FFFFFF;\n""}\n""\n""#rb_bar::chunk {\n""background-color: #7f5af0;\n""}")
-        self.rb_bar.setProperty("value", 24)
+        self.rb_bar.setProperty("value", score.rebirth_pb)
         self.rb_bar.setTextVisible(False)
         self.rb_bar.setObjectName("rb_bar")
         self.rb_txt = QLabel(self.centralwidget)
@@ -518,6 +523,7 @@ class Ui_CherryClicker(object):
         self.rb_btn.setGeometry(QRect(1140, 270, 241, 31))
         self.rb_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.rb_btn.setObjectName("rb_btn")
+        self.rb_btn.setEnabled(False)
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -615,6 +621,7 @@ class Ui_CherryClicker(object):
         self.makskust_btn.clicked.connect(self.buy_makskust)
         self.mur_btn.clicked.connect(self.buy_mur)
         self.hqd_btn.clicked.connect(self.buy_hqd)
+
         
     def play_click_sfx(self):
         self.click_sfx.play()
@@ -644,14 +651,19 @@ class Ui_CherryClicker(object):
         self.mur_price.setText(str(score.mur_price))
         self.hqd_count.setText(str(score.hqd_count))
         self.hqd_price.setText(str(score.hqd_price))
+        score.rebirth_pb = score.total/1000
+        self.rb_bar.setProperty('value', score.rebirth_pb)
+        if score.total == 10:
+            self.rb_btn.setEnabled(True)
         self.notify.setText('')
         
-
 
     def addscore(self):
         score.total += score.per_click
         self.sfx.play()
         self.score.setText(str(score.total))
+        score.rebirth_pb = score.total/1000
+        self.rb_bar.setProperty('value', score.rebirth_pb)
 
     def buy_cherryjam(self):
         self.play_click_sfx()

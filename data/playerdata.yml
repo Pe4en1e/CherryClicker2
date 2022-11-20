@@ -1,10 +1,10 @@
-autoscore: 0
+autoscore: 40
 cherrycake_count: 0
 cherrycake_price: 150
-cherryjam_count: 0
-cherryjam_price: 15
-cherrypie_count: 0
-cherrypie_price: 100
+cherryjam_count: 4
+cherryjam_price: 31
+cherrypie_count: 2
+cherrypie_price: 144
 hqd_count: 0
 hqd_price: 3000
 kust_count: 0
@@ -12,6 +12,8 @@ kust_price: 800
 mur_count: 0
 mur_price: 1500
 per_click: 1
-playerscore: 0
+playerscore: 1169
+rb_progress: 116.9
+rb_tier: 1
 vyshnivka_count: 0
 vyshnivka_price: 400
