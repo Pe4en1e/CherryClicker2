@@ -163,8 +163,8 @@ class score():
     hqd_count = data['hqd_count']
     rebirth_tier = data['rb_tier']
     rebirth_pb = data['rb_progress']
-    click_factor = 1.4
-    auto_factor = 1.2
+    click_factor = 1.5
+    auto_factor = 1.3
 
 
 class autoscore():
@@ -651,10 +651,12 @@ class Ui_CherryClicker(object):
         self.mur_price.setText(str(score.mur_price))
         self.hqd_count.setText(str(score.hqd_count))
         self.hqd_price.setText(str(score.hqd_price))
-        score.rebirth_pb = score.total/1000
+        score.rebirth_pb = score.total/10000
         self.rb_bar.setProperty('value', score.rebirth_pb)
-        if score.total == 10:
+        if score.total >= 1000000:
             self.rb_btn.setEnabled(True)
+        else:
+            self.rb_btn.setEnabled(False)
         self.notify.setText('')
         
 
@@ -662,14 +664,18 @@ class Ui_CherryClicker(object):
         score.total += score.per_click
         self.sfx.play()
         self.score.setText(str(score.total))
-        score.rebirth_pb = score.total/1000
+        score.rebirth_pb = score.total/10000
         self.rb_bar.setProperty('value', score.rebirth_pb)
+        if score.total >= 1000000:
+            self.rb_btn.setEnabled(True)
+        else:
+            self.rb_btn.setEnabled(False)
 
     def buy_cherryjam(self):
         self.play_click_sfx()
         if score.total >= score.jam_price:
             score.jam_count += 1
-            autoscore.total += 5
+            autoscore.total += 1
             score.total = score.total-score.jam_price
             score.jam_price = round(score.jam_price*score.auto_factor)
             self.cherryjam_count.setText(str(score.jam_count))
@@ -683,7 +689,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.pie_price and score.jam_count>=1:
             score.pie_count += 1
-            autoscore.total += 10
+            autoscore.total += 5
             score.total = score.total-score.pie_price
             score.pie_price = round(score.pie_price*score.auto_factor)
             self.cherrypie_count.setText(str(score.pie_count))
@@ -715,7 +721,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.vyshnivka_price and score.cake_count >=1:
             score.vyshnivka_count += 1
-            autoscore.total += 50
+            autoscore.total += 10
             score.total = score.total - score.vyshnivka_price
             score.vyshnivka_price = round(score.vyshnivka_price*score.auto_factor)
             self.vyshnivka_count.setText(str(score.vyshnivka_count))
@@ -731,7 +737,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.makskust_price and score.vyshnivka_count>=1:
             score.makskust_count += 1
-            autoscore.total += 100
+            autoscore.total += 25
             score.total = score.total - score.makskust_price
             score.makskust_price = round(score.makskust_price*score.auto_factor)
             self.makskust_count.setText(str(score.makskust_count))
@@ -748,7 +754,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.mur_price and score.makskust_count>=1:
             score.mur_count += 1
-            autoscore.total += 250
+            autoscore.total += 50
             score.total = score.total - score.mur_price
             score.mur_price = round(score.mur_price*score.auto_factor)
             self.mur_count.setText(str(score.mur_count))
@@ -764,7 +770,7 @@ class Ui_CherryClicker(object):
         self.play_click_sfx()
         if score.total >= score.hqd_price and score.mur_count>=1:
             score.hqd_count += 1
-            autoscore.total += 500
+            autoscore.total += 100
             score.total = score.total-score.hqd_price
             score.hqd_price = round(score.hqd_price*score.auto_factor)
             self.hqd_count.setText(str(score.hqd_count))
