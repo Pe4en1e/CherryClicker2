@@ -11,6 +11,7 @@ from yaml import Loader, Dumper
 
 
 sfx_path = "sounds/effect.wav"
+click_sfx_path = 'sounds/click_sfx.wav'
 yaml_file = open('data/playerdata.yml', 'r')
 data = yaml.load(yaml_file, Loader=Loader)
 
@@ -113,12 +114,21 @@ class Ui_Launcher(QMainWindow):
         Launcher.setCentralWidget(self.centralwidget)
 
 
+        self.click_sfx = QSoundEffect() # click
+        self.click_sfx.setSource(QUrl.fromLocalFile(click_sfx_path))
+
 
         self.continue_btn.clicked.connect(continuegame)
+        self.continue_btn.clicked.connect(self.play_click_sfx)
         self.newgame_btn.clicked.connect(newgame)
+        self.newgame_btn.clicked.connect(self.play_click_sfx)
 
         self.retranslateUi(Launcher)
         QMetaObject.connectSlotsByName(Launcher)
+
+    def play_click_sfx(self):
+        self.click_sfx.play()
+
 
     def retranslateUi(self, Launcher):
         _translate = QCoreApplication.translate
@@ -386,7 +396,7 @@ class Ui_CherryClicker(object):
         self.vyshnivka_price.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.vyshnivka_price.setObjectName("vyshnivka_price")
         self.notify = QLabel(self.centralwidget)
-        self.notify.setGeometry(QRect(0, 350, 441, 41))
+        self.notify.setGeometry(QRect(0, 330, 441, 81))
         font = QFont()
         font.setFamily("Verdana")
         font.setPointSize(24)
@@ -489,6 +499,8 @@ class Ui_CherryClicker(object):
 
         self.sfx = QSoundEffect() # тык sfx
         self.sfx.setSource(QUrl.fromLocalFile(sfx_path))
+        self.click_sfx = QSoundEffect() # click
+        self.click_sfx.setSource(QUrl.fromLocalFile(click_sfx_path))
 
     
         self.retranslateUi(CherryClicker)
@@ -520,7 +532,9 @@ class Ui_CherryClicker(object):
         self.score.setText(_translate("CherryClicker", str(score.total)))
         self.main_btn.clicked.connect(self.addscore)
         self.exit_btn.clicked.connect(exitgame)
+        self.exit_btn.clicked.connect(self.play_click_sfx)
         self.save_btn.clicked.connect(savegame)
+        self.save_btn.clicked.connect(self.play_click_sfx)
 
 
         self.timer = QTimer()
@@ -536,9 +550,14 @@ class Ui_CherryClicker(object):
         self.makskust_btn.clicked.connect(self.buy_makskust)
         self.mur_btn.clicked.connect(self.buy_mur)
         
+    def play_click_sfx(self):
+        self.click_sfx.play()
 
     def nomoney(self):
         self.notify.setText('Недостаточно денег!')
+
+    def noprev(self):
+        self.notify.setText('Купите предыдущее\nулучшение!')
 
     def autofarm(self):
         score.total += autoscore.total
@@ -567,6 +586,7 @@ class Ui_CherryClicker(object):
         self.score.setText(str(score.total))
 
     def buy_cherryjam(self):
+        self.play_click_sfx()
         if score.total >= score.jam_price:
             score.jam_count += 1
             autoscore.total += 5
@@ -580,6 +600,7 @@ class Ui_CherryClicker(object):
             self.nomoney()
 
     def buy_cherrypie(self):
+        self.play_click_sfx()
         if score.total >= score.pie_price and score.jam_count>=1:
             score.pie_count += 1
             autoscore.total += 10
@@ -589,10 +610,13 @@ class Ui_CherryClicker(object):
             self.cherrypie_price.setText(str(score.pie_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
+        elif score.total >= score.pie_price and score.jam_count==0:
+            self.noprev()
         else:
             self.nomoney()
 
     def buy_cherrycake(self):
+        self.play_click_sfx()
         if score.total >= score.cake_price and score.pie_count>=1:
             score.cake_count += 1
             score.per_click += 1
@@ -602,10 +626,13 @@ class Ui_CherryClicker(object):
             self.cherrycake_price.setText(str(score.cake_price))
             self.click_cost.setText(str(score.per_click))
             self.score.setText(str(score.total))
+        elif score.total >= score.cake_price and score.pie_count==0:
+            self.noprev()
         else:
             self.nomoney()
     
     def buy_vyshnivka(self):
+        self.play_click_sfx()
         if score.total >= score.vyshnivka_price and score.cake_count >=1:
             score.vyshnivka_count += 1
             autoscore.total += 50
@@ -615,10 +642,13 @@ class Ui_CherryClicker(object):
             self.vyshnivka_price.setText(str(score.vyshnivka_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
+        elif score.total >= score.vyshnivka_price and score.cake_count==0:
+            self.noprev()
         else:
             self.nomoney()
         
     def buy_makskust(self):
+        self.play_click_sfx()
         if score.total >= score.makskust_price and score.vyshnivka_count>=1:
             score.makskust_count += 1
             autoscore.total += 100
@@ -628,10 +658,14 @@ class Ui_CherryClicker(object):
             self.makskust_price.setText(str(score.makskust_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
+        elif score.total >= score.makskust_price and score.vyshnivka_count==0:
+            self.noprev()
         else:
             self.nomoney()
 
+
     def buy_mur(self):
+        self.play_click_sfx()
         if score.total >= score.mur_price and score.makskust_count>=1:
             score.mur_count += 1
             autoscore.total += 250
@@ -641,6 +675,8 @@ class Ui_CherryClicker(object):
             self.mur_price.setText(str(score.mur_price))
             self.per_second.setText(str(autoscore.total))
             self.score.setText(str(score.total))
+        elif score.total >= score.mur_price and score.makskust_count==0:
+            self.noprev()
         else:
             self.nomoney()
 
