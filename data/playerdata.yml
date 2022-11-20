@@ -12,10 +12,10 @@ kust_price: 800
 mur_count: 0
 mur_price: 1500
 per_click: 1
-playerscore: 100
-rb_boost: 2.0
-rb_goal: 100
-rb_progress: 100
-rb_tier: 3
+playerscore: 50000
+rb_boost: 1
+rb_goal: 1000000
+rb_progress: 5.0
+rb_tier: 1
 vyshnivka_count: 0
 vyshnivka_price: 400

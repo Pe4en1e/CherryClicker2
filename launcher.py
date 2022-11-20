@@ -39,7 +39,7 @@ def newgame():
     score.hqd_count = 0
     score.rebirth_pb = 0
     score.rebirth_tier = 1
-    score.rebirth_goal = 1
+    score.rebirth_goal = 1000000
     score.rebirth_boost = 1
     game.show()
 
@@ -167,8 +167,8 @@ class score():
     hqd_price = data['hqd_price']
     hqd_count = data['hqd_count']
     rebirth_tier = data['rb_tier']
-    rebirth_pb = data['rb_progress']
     rebirth_goal = data['rb_goal']
+    rebirth_pb = total/10000
     rebirth_boost = data['rb_boost']
     click_factor = 1.5
     auto_factor = 1.3
@@ -513,7 +513,6 @@ class Ui_CherryClicker(object):
         self.rb_bar.setGeometry(QRect(1140, 242, 241, 21))
         self.rb_bar.setAutoFillBackground(False)
         self.rb_bar.setStyleSheet("#rb_bar{\n""background-color: #16161a;\n""border: 2px solid #FFFFFF;\n""}\n""\n""#rb_bar::chunk {\n""background-color: #7f5af0;\n""}")
-        self.rb_bar.setProperty("value", score.rebirth_pb)
         self.rb_bar.setTextVisible(False)
         self.rb_bar.setObjectName("rb_bar")
         self.rb_txt = QLabel(self.centralwidget)
@@ -678,9 +677,9 @@ class Ui_CherryClicker(object):
         self.hqd_price.setText(str(score.hqd_price))
         self.rb_txt.setText('Tier: ' + str(score.rebirth_tier))
         self.rb_boost.setText("Буст уровня: x"+ str(score.rebirth_boost))
-        score.rebirth_pb = score.total
+        score.rebirth_pb = score.total/10000
         self.rb_bar.setProperty('value', score.rebirth_pb)
-        if score.total >= 100*score.rebirth_goal:
+        if score.total >= score.rebirth_goal:
             self.rb_btn.setEnabled(True)
         else:
             self.rb_btn.setEnabled(False)
@@ -691,9 +690,9 @@ class Ui_CherryClicker(object):
         score.total += score.per_click
         self.sfx.play()
         self.score.setText(numerize(score.total, 2))
-        score.rebirth_pb = score.total
+        score.rebirth_pb = score.total/10000
         self.rb_bar.setProperty('value', score.rebirth_pb)
-        if score.total >= 100*score.rebirth_goal:
+        if score.total >= score.rebirth_goal:
             self.rb_btn.setEnabled(True)
         else:
             self.rb_btn.setEnabled(False)
