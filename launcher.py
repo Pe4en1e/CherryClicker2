@@ -33,6 +33,8 @@ def newgame():
     score.makskust_price = 800
     score.mur_price = 1500
     score.mur_count = 0
+    score.hqd_price = 3000
+    score.hqd_count = 0
     game.show()
 
 def continuegame():
@@ -59,7 +61,9 @@ def savegame():
         'kust_count': score.makskust_count,
         'kust_price': score.makskust_price,
         'mur_count': score.mur_count,
-        'mur_price': score.mur_price
+        'mur_price': score.mur_price,
+        'hqd_count': score.hqd_count,
+        'hqd_price': score.hqd_price
         }
     with open('data/playerdata.yml', 'w') as f:
         yaml.dump(playerscore, f)
@@ -152,6 +156,8 @@ class score():
     makskust_price = data['kust_price']
     mur_count = data['mur_count']
     mur_price =data['mur_price']
+    hqd_price = data['hqd_price']
+    hqd_count = data['hqd_count']
     click_factor = 1.4
     auto_factor = 1.2
 
@@ -463,6 +469,34 @@ class Ui_CherryClicker(object):
         self.mur_price.setStyleSheet("color: rgb(255, 255, 255)")
         self.mur_price.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.mur_price.setObjectName("mur_price")
+        self.hqd_btn = QPushButton(self.centralwidget)
+        self.hqd_btn.setGeometry(QRect(560, 600, 391, 61))
+        self.hqd_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.hqd_btn.setStyleSheet("border-image:url(images/hqd_btn.png)")
+        self.hqd_btn.setText("")
+        self.hqd_btn.setObjectName("hqd_btn")
+        self.hqd_count = QLabel(self.centralwidget)
+        self.hqd_count.setGeometry(QRect(470, 600, 81, 51))
+        font = QFont()
+        font.setFamily("Play")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.hqd_count.setFont(font)
+        self.hqd_count.setStyleSheet("color: rgb(255, 255, 255)")
+        self.hqd_count.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.hqd_count.setObjectName("hqd_count")
+        self.hqd_price = QLabel(self.centralwidget)
+        self.hqd_price.setGeometry(QRect(960, 600, 141, 51))
+        font = QFont()
+        font.setFamily("Play")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.hqd_price.setFont(font)
+        self.hqd_price.setStyleSheet("color: rgb(255, 255, 255)")
+        self.hqd_price.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.hqd_price.setObjectName("hqd_price")
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -494,6 +528,9 @@ class Ui_CherryClicker(object):
         self.mur_count.raise_()
         self.mur_btn.raise_()
         self.mur_price.raise_()
+        self.hqd_btn.raise_()
+        self.hqd_count.raise_()
+        self.hqd_price.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
 
 
@@ -526,6 +563,8 @@ class Ui_CherryClicker(object):
         self.makskust_count.setText(_translate("CherryClicker", str(score.makskust_count)))
         self.mur_count.setText(_translate("CherryClicker", str(score.mur_count)))
         self.mur_price.setText(_translate("CherryClicker", str(score.mur_price)))
+        self.hqd_count.setText(_translate("CherryClicker", str(score.hqd_count)))
+        self.hqd_price.setText(_translate("CherryClicker", str(score.hqd_price)))
 
         self.notify.setText(_translate("CherryClicker", ""))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
@@ -549,6 +588,7 @@ class Ui_CherryClicker(object):
         self.vyshnivka_btn.clicked.connect(self.buy_vyshnivka)
         self.makskust_btn.clicked.connect(self.buy_makskust)
         self.mur_btn.clicked.connect(self.buy_mur)
+        self.hqd_btn.clicked.connect(self.buy_hqd)
         
     def play_click_sfx(self):
         self.click_sfx.play()
@@ -576,6 +616,8 @@ class Ui_CherryClicker(object):
         self.makskust_price.setText(str(score.makskust_price))
         self.mur_count.setText(str(score.mur_count))
         self.mur_price.setText(str(score.mur_price))
+        self.hqd_count.setText(str(score.hqd_count))
+        self.hqd_price.setText(str(score.hqd_price))
         self.notify.setText('')
         
 
@@ -679,6 +721,22 @@ class Ui_CherryClicker(object):
             self.noprev()
         else:
             self.nomoney()
+
+    def buy_hqd(self):
+        self.play_click_sfx()
+        if score.total >= score.hqd_price and score.mur_count>=1:
+            score.hqd_count += 1
+            autoscore.total += 500
+            score.total = score.total-score.hqd_price
+            score.hqd_price = round(score.hqd_price*score.auto_factor)
+            self.hqd_count.setText(str(score.hqd_count))
+            self.hqd_price.setText(str(score.hqd_price))
+            self.per_second.setText(str(autoscore.total))
+            self.score.setText(str(score.total))
+        elif score.total >= score.hqd_price and score.mur_count>=0:
+           self.noprev()
+        else:
+            self.nomoney() 
 
 
 app=QApplication(sys.argv)
