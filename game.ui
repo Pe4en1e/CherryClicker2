@@ -945,7 +945,7 @@ background-color: #7f5af0;
       <x>1140</x>
       <y>310</y>
       <width>241</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -961,6 +961,31 @@ background-color: #7f5af0;
     </property>
     <property name="text">
      <string>Буст уровня: 0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="goal_text">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>345</y>
+      <width>241</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #ffffff</string>
+    </property>
+    <property name="text">
+     <string>Необходимо: 1000000</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1004,6 +1029,7 @@ background-color: #7f5af0;
    <zorder>rb_txt</zorder>
    <zorder>rb_btn</zorder>
    <zorder>rb_boost</zorder>
+   <zorder>goal_text</zorder>
   </widget>
  </widget>
  <resources/>

@@ -168,7 +168,7 @@ class score():
     hqd_count = data['hqd_count']
     rebirth_tier = data['rb_tier']
     rebirth_goal = data['rb_goal']
-    rebirth_pb = total/10000
+    rebirth_pb = total/rebirth_goal*100
     rebirth_boost = data['rb_boost']
     click_factor = 1.5
     auto_factor = 1.3
@@ -177,6 +177,7 @@ class score():
 class autoscore():
     total = data['autoscore']
 
+    
 class Ui_CherryClicker(object):
     def setupUi(self, CherryClicker):
         CherryClicker.setObjectName("CherryClicker")
@@ -541,6 +542,15 @@ class Ui_CherryClicker(object):
         self.rb_boost.setStyleSheet("color: #ffffff")
         self.rb_boost.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.rb_boost.setObjectName("rb_boost")
+        self.goal_text = QLabel(self.centralwidget)
+        self.goal_text.setGeometry(QRect(1140, 345, 241, 31))
+        font = QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(16)
+        self.goal_text.setFont(font)
+        self.goal_text.setStyleSheet("color: #ffffff")
+        self.goal_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.goal_text.setObjectName("goal_text")
         self.label.raise_()
         self.score.raise_()
         self.main_btn.raise_()
@@ -579,6 +589,7 @@ class Ui_CherryClicker(object):
         self.rb_txt.raise_()
         self.rb_btn.raise_()
         self.rb_boost.raise_()
+        self.goal_text.raise_()
         CherryClicker.setCentralWidget(self.centralwidget)
 
 
@@ -618,6 +629,7 @@ class Ui_CherryClicker(object):
         self.rb_txt.setText(_translate("CherryClicker", "Tier 1"))
         self.rb_btn.setText(_translate("CherryClicker", "RE-BIRTH"))
         self.rb_boost.setText(_translate("CherryClicker", "Буст уровня: x"+ str(score.rebirth_tier)))
+        self.goal_text.setText(_translate("CherryClicker", "Необходимо: "+ str(score.rebirth_goal)))
 
         self.notify.setText(_translate("CherryClicker", ""))
         CherryClicker.setWindowTitle(_translate("CherryClicker", "CherryClicker"))
@@ -677,20 +689,21 @@ class Ui_CherryClicker(object):
         self.hqd_price.setText(str(score.hqd_price))
         self.rb_txt.setText('Tier: ' + str(score.rebirth_tier))
         self.rb_boost.setText("Буст уровня: x"+ str(score.rebirth_boost))
-        score.rebirth_pb = score.total/10000
+        score.rebirth_pb = score.total/score.rebirth_goal*100
         self.rb_bar.setProperty('value', score.rebirth_pb)
         if score.total >= score.rebirth_goal:
             self.rb_btn.setEnabled(True)
         else:
             self.rb_btn.setEnabled(False)
         self.notify.setText('')
+        self.goal_text.setText("Необходимо: "+ str(score.rebirth_goal))
         
 
     def addscore(self):
         score.total += score.per_click
         self.sfx.play()
         self.score.setText(numerize(score.total, 2))
-        score.rebirth_pb = score.total/10000
+        score.rebirth_pb = score.total/score.rebirth_goal*100
         self.rb_bar.setProperty('value', score.rebirth_pb)
         if score.total >= score.rebirth_goal:
             self.rb_btn.setEnabled(True)
