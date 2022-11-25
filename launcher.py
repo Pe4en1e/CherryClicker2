@@ -9,6 +9,7 @@ from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 import yaml
 from yaml import Loader, Dumper
 from numerize.numerize import numerize
+from cherry_server import auth
 
 
 sfx_path = "sounds/effect.wav"
@@ -87,66 +88,82 @@ class Ui_Launcher(QMainWindow):
         Launcher.setMaximumSize(QSize(640, 320))
         Launcher.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         icon = QIcon()
-        icon.addPixmap(QPixmap("favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addPixmap(QPixmap("images/favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
         Launcher.setWindowIcon(icon)
         Launcher.setLocale(QLocale(QLocale.Language.Ukrainian, QLocale.Country.Ukraine))
         self.centralwidget = QWidget(Launcher)
         self.centralwidget.setObjectName("centralwidget")
-        self.newgame_btn = QPushButton(self.centralwidget)
-        self.newgame_btn.setGeometry(QRect(10, 130, 171, 41))
-        font = QFont()
-        font.setFamily("Yu Gothic UI Semibold")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
-        self.newgame_btn.setFont(font)
-        self.newgame_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.newgame_btn.setStyleSheet("background-color: #7f5af0;\n""color: #fffffe\n""")
-        self.newgame_btn.setObjectName("newgame_btn")
-        self.continue_btn = QPushButton(self.centralwidget)
-        self.continue_btn.setGeometry(QRect(10, 180, 171, 41))
-        font = QFont()
-        font.setFamily("Yu Gothic UI Semibold")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
-        self.continue_btn.setFont(font)
-        self.continue_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.continue_btn.setStyleSheet("background-color: #7f5af0;\n""color: #fffffe\n""")
-        self.continue_btn.setObjectName("continue_btn")
         self.label = QLabel(self.centralwidget)
         self.label.setGeometry(QRect(0, 0, 641, 321))
         self.label.setText("")
-        self.label.setPixmap(QPixmap("images/launcher.png"))
+        self.label.setPixmap(QPixmap("images/launcher/SPRK_default_preset_name_custom – 1.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
-        self.label.raise_()
-        self.newgame_btn.raise_()
-        self.continue_btn.raise_()
+        self.login_field = QLineEdit(self.centralwidget)
+        self.login_field.setGeometry(QRect(19, 170, 279, 33))
+        font = QFont()
+        font.setPointSize(10)
+        self.login_field.setFont(font)
+        self.login_field.setStyleSheet("border-radius: 5px; border: 2px solid #7F5AF0; color: #ffffff; background-color: #16161A")
+        self.login_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.login_field.setObjectName("login_field")
+        self.password_field = QLineEdit(self.centralwidget)
+        self.password_field.setGeometry(QRect(19, 218, 279, 33))
+        font = QFont()
+        font.setPointSize(10)
+        self.password_field.setFont(font)
+        self.password_field.setStyleSheet("border-radius: 5px; border: 2px solid #7F5AF0; color: #ffffff; background-color: #16161A")
+        self.password_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.password_field.setObjectName("password_field")
+        self.login_btn = QPushButton(self.centralwidget)
+        self.login_btn.setGeometry(QRect(312, 170, 161, 33))
+        self.login_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.login_btn.setStyleSheet("border-radius: 0px; border: 0px solid white; background-image: url(images/launcher/btn_login.png)")
+        self.login_btn.setText("")
+        self.login_btn.setObjectName("login_btn")
+        self.reg_btn = QPushButton(self.centralwidget)
+        self.reg_btn.setGeometry(QRect(312, 218, 161, 33))
+        self.reg_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.reg_btn.setStyleSheet("border-radius: 0px; border: 0px solid white; background-image: url(images/launcher/btn_reg.png)")
+        self.reg_btn.setText("")
+        self.reg_btn.setObjectName("reg_btn")
+        self.result_txt = QLabel(self.centralwidget)
+        self.result_txt.setGeometry(QRect(20, 260, 279, 41))
+        font = QFont()
+        font.setPointSize(12)
+        self.result_txt.setFont(font)
+        self.result_txt.setStyleSheet("color: #ffffff")
+        self.result_txt.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.result_txt.setObjectName("result_txt")
         Launcher.setCentralWidget(self.centralwidget)
-
-
-        self.click_sfx = QSoundEffect() # click
-        self.click_sfx.setSource(QUrl.fromLocalFile(click_sfx_path))
-
-
-        self.continue_btn.clicked.connect(continuegame)
-        self.continue_btn.clicked.connect(self.play_click_sfx)
-        self.newgame_btn.clicked.connect(newgame)
-        self.newgame_btn.clicked.connect(self.play_click_sfx)
+        self.reg_btn.clicked.connect(self.reg)
+        self.login_btn.clicked.connect(self.login)
 
         self.retranslateUi(Launcher)
         QMetaObject.connectSlotsByName(Launcher)
 
-    def play_click_sfx(self):
-        self.click_sfx.play()
-
-
     def retranslateUi(self, Launcher):
         _translate = QCoreApplication.translate
         Launcher.setWindowTitle(_translate("Launcher", "Launcher"))
-        self.newgame_btn.setText(_translate("Launcher", "Новая игра"))
-        self.continue_btn.setText(_translate("Launcher", "Продолжить "))
+        self.login_field.setPlaceholderText(_translate("Launcher", "Login..."))
+        self.password_field.setPlaceholderText(_translate("Launcher", "Password..."))
+        self.result_txt.setText(_translate("Launcher", ""))
+
+    def reg(self):
+        result = auth.reg(str(self.login_field.text()), str(self.password_field.text()))
+        if result == 'User registred!':
+            self.result_txt.setText('')
+            newgame()
+        else:
+            self.result_txt.setText(result)
+
+    def login(self):
+        result = auth.login(str(self.login_field.text()), str(self.password_field.text()))
+        if result == 'Signed In':
+            self.result_txt.setText('')
+            continuegame()
+        else:
+            self.result_txt.setText(result)
 
 
 class score():
@@ -185,7 +202,7 @@ class Ui_CherryClicker(object):
         CherryClicker.setMaximumSize(QSize(1400, 800))
         CherryClicker.setMinimumSize(QSize(1400, 800))
         icon = QIcon()
-        icon.addPixmap(QPixmap("favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addPixmap(QPixmap("images/favicon.ico"), QIcon.Mode.Normal, QIcon.State.Off)
         CherryClicker.setWindowIcon(icon)
         CherryClicker.setLocale(QLocale(QLocale.Language.Ukrainian, QLocale.Country.Ukraine))
         self.centralwidget = QWidget(CherryClicker)
@@ -661,12 +678,13 @@ class Ui_CherryClicker(object):
     def play_click_sfx(self):
         self.click_sfx.play()
 
+        
     def nomoney(self):
         self.notify.setText('Недостаточно денег!')
 
     def noprev(self):
         self.notify.setText('Купите предыдущее\nулучшение!')
-
+        
 
     def autofarm(self):
         score.total += autoscore.total
