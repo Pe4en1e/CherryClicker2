@@ -12,29 +12,36 @@ import socket
 
 class auth():
     def reg(x, y):
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('95.165.142.147', 1332))
-        method = 'reg'
-        client.send(method.encode())
-        client.recv(1024)
-        client.send(str(x).encode())
-        client.recv(1024)
-        client.send(str(y).encode())
-        result = client.recv(1024)
-        client.close()
-        print(result.decode())
-        return result.decode()
+        if x != '' and y != '':
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.connect(('195.2.93.17', 1332))
+            method = 'reg'
+            client.send(method.encode())
+            client.recv(1024)
+            client.send(str(x).encode())
+            client.recv(1024)
+            client.send(str(y).encode())
+            result = client.recv(1024)
+            client.close()
+            print(result.decode())
+            return result.decode()
+        else:
+            return 'Заполните все поля!'
+            
     
     def login(x, y):
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('95.165.142.147', 1332))
-        method = 'login'
-        client.send(method.encode())
-        client.recv(1024)
-        client.send(str(x).encode())
-        client.recv(1024)
-        client.send(str(y).encode())
-        result = client.recv(1024)
-        client.close()
-        print(result.decode())
-        return result.decode()
+        if x != '' and y != '':
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.connect(('195.2.93.17', 1332))
+            method = 'login'
+            client.send(method.encode())
+            client.recv(1024)
+            client.send(str(x).encode())
+            client.recv(1024)
+            client.send(str(y).encode())
+            result = client.recv(1024)
+            client.close()
+            print(result.decode())
+            return result.decode()
+        else:
+            return 'Заполните все поля!'
